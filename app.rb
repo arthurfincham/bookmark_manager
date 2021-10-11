@@ -9,7 +9,7 @@ class BookmarkApp < Sinatra::Base
   end
 
   get '/bookmarks' do    
-    @manager = Manager.all
+    @bookmarks = Manager.new.all
     erb :bookmarks
   end
 
