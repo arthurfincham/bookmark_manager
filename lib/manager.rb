@@ -7,7 +7,7 @@ class Manager
   def initialize
   end
 
-  def all
+  def self.all
     con = PG.connect :dbname => 'bookmark_manager', :user => 'arthurfincham'
     result = con.exec( "SELECT * FROM bookmarks" )
     result.map do |bookmark|
