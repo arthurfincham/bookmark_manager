@@ -1,12 +1,16 @@
 require 'bookmark'
 
 describe Bookmark do
-  subject(:bookmark){ described_class.new(1,"facebook.com")}
-  it 'has an id' do
-    expect(subject.id).to eq 1
+  subject(:bookmark) { described_class.new }
+
+  describe '#all' do
+    it 'returns a list of bookmarks' do
+      bookmarks = Bookmark.all
+  
+      expect(bookmarks.first).to have_value 'http://www.makersacademy.com'
+
+      expect(bookmarks[1]).to have_value "http://www.google.com"
+    end
   end
 
-  it 'has a URL' do
-    expect(subject.url).to eq "facebook.com"
-  end
 end

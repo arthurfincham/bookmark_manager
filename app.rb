@@ -1,7 +1,6 @@
 require 'sinatra/base'
 require 'sinatra/reloader'
 require './lib/bookmark'
-require './lib/manager'
 
 class BookmarkApp < Sinatra::Base
   get '/' do
