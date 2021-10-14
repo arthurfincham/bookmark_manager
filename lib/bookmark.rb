@@ -8,7 +8,12 @@ class Bookmark
   end
 
   def self.all
-    con = PG.connect :dbname => 'bookmark_manager', :user => 'arthurfincham'
+    if ENV['ENVIRONMENT'] = 'test'
+      con = PG.connect :dbname => 'bookmark_manager_test', :user => 'arthurfincham'
+    else
+      con = PG.connect :dbname => 'bookmark_manager', :user => 'arthurfincham'
+    end
+
     result = con.exec( "SELECT * FROM bookmarks" )
     result.map do |bookmark|
       bookmark['url']
