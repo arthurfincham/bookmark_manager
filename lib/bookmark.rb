@@ -2,25 +2,23 @@ require 'pg'
 
 class Bookmark
   
-  attr_reader :all
+  attr_reader :url
 
-  def initialize
+  def initialize(url:)
+    @url = url
   end
 
   def self.all
     if ENV['ENVIRONMENT'] = 'test'
-      con = PG.connect :dbname => 'bookmark_manager_test', :user => 'arthurfincham'
+      con = PG.connect(dbname: 'bookmark_manager_test')
     else
-      con = PG.connect :dbname => 'bookmark_manager', :user => 'arthurfincham'
+      con = PG.connect(dbname: 'bookmark_manager')
     end
 
     result = con.exec( "SELECT * FROM bookmarks" )
     result.map do |bookmark|
-      bookmark['url']
+      Bookmark.new(url: bookmark['url'])
     end
   end
 
-  def add_bookmark(bookmark)
-    @bookmarks << bookmark
-  end
 end

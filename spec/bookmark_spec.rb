@@ -14,9 +14,9 @@ describe Bookmark do
 
     bookmarks = Bookmark.all
 
-    expect(bookmarks).to include('http://www.makersacademy.com')
-    expect(bookmarks).to include('http://www.destroyallsoftware.com')
-    expect(bookmarks).to include('http://www.google.com')
+    expect(bookmarks[0]).to have_attributes(:url => 'http://www.makersacademy.com')
+    expect(bookmarks[1]).to have_attributes(:url => 'http://www.destroyallsoftware.com')
+    expect(bookmarks[2]).to have_attributes(:url => 'http://www.google.com')
   end
   end
 end
