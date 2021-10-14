@@ -1,34 +1,37 @@
+# frozen_string_literal: true
+
 require 'pg'
 
 class Bookmark
-  
-  attr_reader :url
+  attr_reader :url, :title, :id
 
-  def initialize(url:)
+  def initialize(url:, title:, id:)
+    @id = id
     @url = url
+    @title = title
   end
 
   def self.all
-    if ENV['ENVIRONMENT'] = 'test'
-      con = PG.connect(dbname: 'bookmark_manager_test')
-    else
-      con = PG.connect(dbname: 'bookmark_manager')
-    end
+    con = if ENV['ENVIRONMENT'] = 'test'
+            PG.connect(dbname: 'bookmark_manager_test')
+          else
+            PG.connect(dbname: 'bookmark_manager')
+          end
 
-    result = con.exec( "SELECT * FROM bookmarks" )
+    result = con.exec('SELECT * FROM bookmarks')
     result.map do |bookmark|
-      Bookmark.new(url: bookmark['url'])
+      Bookmark.new(id: bookmark['id'], title: bookmark['title'], url: bookmark['url'])
     end
   end
 
-  def self.create(url:)
-    if ENV['ENVIRONMENT'] = 'test'
-      con = PG.connect(dbname: 'bookmark_manager_test')
-    else
-      con = PG.connect(dbname: 'bookmark_manager')
-    end
+  def self.create(url:, title:)
+    con = if ENV['ENVIRONMENT'] = 'test'
+            PG.connect(dbname: 'bookmark_manager_test')
+          else
+            PG.connect(dbname: 'bookmark_manager')
+          end
 
-    con.exec("INSERT INTO bookmarks (url) VALUES('#{url}')")
+    result = con.exec("INSERT INTO bookmarks (title, url) VALUES('#{title}', '#{url}') RETURNING id, url, title")
+    Bookmark.new(id: result[0]['id'], title: result[0]['title'], url: result[0]['url'])
   end
-
 end
