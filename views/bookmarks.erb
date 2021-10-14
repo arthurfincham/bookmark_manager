@@ -1,12 +1,10 @@
 <table>
   <tr>
-    <th>ID</th>
     <th>URL</th>
   </tr>
   <% @bookmarks.each do |bookmark| %>
   <tr>
-    <td><%= bookmark['id'] %></td>
-    <td><%= bookmark['url'] %></td>
+    <td><%= bookmark.url %></td>
   </tr>
 <% end %>
 </table>
